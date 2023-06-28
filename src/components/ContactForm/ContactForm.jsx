@@ -12,9 +12,9 @@ import {
   TaskEditorButton,
 } from './ContactForm.module.jsx';
 
-const ContactForm = () => {
-const [addContact] = useAddContactMutation();
-const { data } = useGetContactsQuery();
+const ContactForm = ({ contacts }) => {
+  const [addContact] = useAddContactMutation();
+  const { data } = useGetContactsQuery();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -25,7 +25,7 @@ const { data } = useGetContactsQuery();
     const number = form.elements.number.value;
     const contactData = { name, number };
     form.reset();
-    if (data.find(contact => contact.name === name)) {
+    if (data && data.find(contact => contact.name === name)) {
       Notify.warning(`${name} is already in contacts`);
       return false;
     }
@@ -72,8 +72,8 @@ const { data } = useGetContactsQuery();
   );
 };
 
-export default ContactForm;
-
 ContactForm.propTypes = {
   contacts: PropTypes.array,
 };
+
+export default ContactForm;
