@@ -7,7 +7,7 @@ import { useGetContactsQuery } from 'redux/contactsSlice';
 
 const ContactList = () => {
   const { data, error, isLoading } = useGetContactsQuery();
-  const { filter } = useSelector(getFilter);
+  const filter = useSelector(getFilter);
 
   if (!data) {
     return null;
@@ -15,17 +15,15 @@ const ContactList = () => {
 
   const visibleContacts = data.filter(
     contact =>
-      contact.name &&
-      filter &&
       contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
     <div>
       {!error && isLoading && <div>Loading</div>}
-      <TaskList className="List_box">
+      <TaskList>
         {visibleContacts.map(contact => (
-          <TaskListItem className="List_item" key={contact.id}>
+          <TaskListItem  key={contact.id}>
             <Contact contact={contact} />
           </TaskListItem>
         ))}
